@@ -1,73 +1,73 @@
-# Welcome to your Lovable project
+# Scrape Suite
 
-## Project info
+Scrape Suite è un aggregatore di ricerca che esegue lo scraping di più siti web e aggrega i risultati in un'interfaccia unificata. L'applicazione utilizza una moderna tecnologia frontend basata su React/Vite con TypeScript e componenti shadcn‑ui/Tailwind CSS, e un backend Node.js (Express) che sfrutta Playwright per eseguire in parallelo la raccolta dati. Questa versione rimuove i riferimenti a tool di scaffolding e introduce la logica di scraping personalizzata.
 
-**URL**: https://lovable.dev/projects/0f1459e4-223b-4ae9-b1a8-a8508d1b79b8
+## Caratteristiche
 
-## How can I edit this code?
+* **Ricerca unificata**: cerca prodotti o offerte su più siti contemporaneamente, con risultati in un'unica pagina.
+* **Filtri avanzati**: filtra per gruppo (categoria), range di prezzo, disponibilità; ordina per rilevanza, prezzo o data di scraping.
+* **Gestione fonti e gruppi**: interfaccia per abilitare/disabilitare siti, assegnare gruppi e definire regole di scraping.
+* **Scraping concorrente e robusto**: backend con Playwright per pagine JavaScript, gestione `srcset`/placeholder, backoff e possibilità di rotazione user‑agent/proxy.
+* **Aggiornamento in tempo reale**: job tracciati con polling dello stato e recupero risultati.
+* **Design responsive**: UI a card con immagini, descrizioni e prezzi basata su shadcn/Tailwind.
 
-There are several ways of editing your application.
+## Stack tecnologico
 
-**Use Lovable**
+* **Frontend**: Vite + React + TypeScript + shadcn‑ui + Tailwind CSS
+* **Backend**: Node.js + Express + Playwright per lo scraping
+* **Gestione stato**: React Query per chiamate asincrone e caching
+* **Tipizzazione**: condivisa fra client e server tramite file TypeScript
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0f1459e4-223b-4ae9-b1a8-a8508d1b79b8) and start prompting.
+La struttura del progetto include cartelle `public/` e `src/` con sottocartelle per `components`, `pages`, `data`, `lib` e `types`.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Installazione
 
-**Use your preferred IDE**
+1. Clona il repository:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+   ```bash
+   git clone <URL_DEL_REPO>
+   cd scrape-suite
+   ```
+2. Installa le dipendenze:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+   ```bash
+   npm install
+   ```
+3. Avvia l'ambiente di sviluppo (client + server):
 
-Follow these steps:
+   ```bash
+   npm run dev
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+   Il frontend sarà in ascolto sulla porta `5173` e l'API backend sulla `5174`.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+> Assicurati di avere Node.js installato. Se preferisci Bun, puoi adattare gli script e le dipendenze.
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Configurazione
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+Crea un file `.env` (o `.env.local`) nella radice con queste variabili:
+
+```
+PORT=5174                 # porta del backend
+VITE_API_URL=http://localhost:5174  # URL dell'API usato dal frontend
 ```
 
-**Edit a file directly in GitHub**
+## API
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Il backend espone pochi endpoint REST:
 
-**Use GitHub Codespaces**
+* **POST `/api/search`**: avvia un job di scraping. Corpo JSON: `{ query: string, sites: string[] }`. Ritorna `{ jobId }`.
+* **GET `/api/jobs/:id/status`**: restituisce lo stato del job (`queued`, `running`, `done`, `error`) e l'array `products` con i risultati se completato.
+* **GET `/health`**: verifica lo stato del server.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+I risultati sono oggetti `ProductCard` con campi come `title`, `url`, `image`, `price`, `source` e `scrapedAt`.
 
-## What technologies are used for this project?
+## Come contribuire
 
-This project is built with:
+* Forka il progetto e crea un branch per le tue modifiche.
+* Aggiungi nuovi adapter di scraping in `server/sites/` seguendo l'esempio esistente.
+* Apri una Pull Request descrivendo le tue modifiche.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Licenza
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/0f1459e4-223b-4ae9-b1a8-a8508d1b79b8) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Questo progetto è distribuito con licenza **MIT**.
