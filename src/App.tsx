@@ -6,6 +6,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "./components/layout/AppLayout";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import { SearchPage } from "./pages/SearchPage";
+import { SitesManagement } from "./pages/SitesManagement";
+import { GroupsManagement } from "./pages/GroupsManagement";
+import { ResultsPage } from "./pages/ResultsPage";
+import { ActivityPage } from "./pages/ActivityPage";
+import { SettingsPage } from "./pages/SettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -19,12 +24,12 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/sites" element={<div>Sites Management (Coming Soon)</div>} />
-            <Route path="/groups" element={<div>Groups Management (Coming Soon)</div>} />
-            <Route path="/results" element={<div>All Results (Coming Soon)</div>} />
-            <Route path="/activity" element={<div>Activity Log (Coming Soon)</div>} />
-            <Route path="/settings" element={<div>Settings (Coming Soon)</div>} />
-            <Route path="*" element={<div>Page Not Found</div>} />
+            <Route path="/sites" element={<SitesManagement />} />
+            <Route path="/groups" element={<GroupsManagement />} />
+            <Route path="/results" element={<ResultsPage />} />
+            <Route path="/activity" element={<ActivityPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="*" element={<div className="text-center p-8"><h2 className="text-2xl font-bold">Pagina Non Trovata</h2></div>} />
           </Routes>
         </AppLayout>
       </BrowserRouter>
